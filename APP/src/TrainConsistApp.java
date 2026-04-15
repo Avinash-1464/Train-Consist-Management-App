@@ -1,24 +1,13 @@
-import java.util.Arrays;
-
 public class TrainConsistApp {
 
-    public static boolean binarySearch(String[] arr, String key) {
-        Arrays.sort(arr);
+    public static boolean searchBogie(String[] bogies, String key) {
+        if (bogies == null || bogies.length == 0) {
+            throw new IllegalStateException("No bogies available for search");
+        }
 
-        int low = 0;
-        int high = arr.length - 1;
-
-        while (low <= high) {
-            int mid = (low + high) / 2;
-
-            int result = arr[mid].compareTo(key);
-
-            if (result == 0) {
+        for (String b : bogies) {
+            if (b.equals(key)) {
                 return true;
-            } else if (result < 0) {
-                low = mid + 1;
-            } else {
-                high = mid - 1;
             }
         }
 
@@ -26,9 +15,8 @@ public class TrainConsistApp {
     }
 
     public static void main(String[] args) {
-        String[] bogies = {"BG309", "BG101", "BG550", "BG205", "BG412"};
+        String[] bogies = {"BG101", "BG205", "BG309"};
 
-        System.out.println(binarySearch(bogies, "BG205"));
-        System.out.println(binarySearch(bogies, "BG999"));
+        System.out.println(searchBogie(bogies, "BG205"));
     }
 }
