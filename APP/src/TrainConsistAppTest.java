@@ -4,37 +4,37 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TrainConsistAppTest {
 
     @Test
-    void testSort_BasicSorting() {
-        int[] arr = {72, 56, 24, 70, 60};
-        TrainConsistApp.bubbleSort(arr);
-        assertArrayEquals(new int[]{24, 56, 60, 70, 72}, arr);
+    void testSort_BasicAlphabeticalSorting() {
+        String[] input = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
+        TrainConsistApp.sortBogieNames(input);
+        assertArrayEquals(new String[]{"AC Chair", "First Class", "General", "Luxury", "Sleeper"}, input);
+    }
+
+    @Test
+    void testSort_UnsortedInput() {
+        String[] input = {"Luxury", "General", "Sleeper", "AC Chair"};
+        TrainConsistApp.sortBogieNames(input);
+        assertArrayEquals(new String[]{"AC Chair", "General", "Luxury", "Sleeper"}, input);
     }
 
     @Test
     void testSort_AlreadySortedArray() {
-        int[] arr = {24, 56, 60, 70, 72};
-        TrainConsistApp.bubbleSort(arr);
-        assertArrayEquals(new int[]{24, 56, 60, 70, 72}, arr);
+        String[] input = {"AC Chair", "First Class", "General"};
+        TrainConsistApp.sortBogieNames(input);
+        assertArrayEquals(new String[]{"AC Chair", "First Class", "General"}, input);
     }
 
     @Test
-    void testSort_DuplicateValues() {
-        int[] arr = {72, 56, 56, 24};
-        TrainConsistApp.bubbleSort(arr);
-        assertArrayEquals(new int[]{24, 56, 56, 72}, arr);
+    void testSort_DuplicateBogieNames() {
+        String[] input = {"Sleeper", "AC Chair", "Sleeper", "General"};
+        TrainConsistApp.sortBogieNames(input);
+        assertArrayEquals(new String[]{"AC Chair", "General", "Sleeper", "Sleeper"}, input);
     }
 
     @Test
     void testSort_SingleElementArray() {
-        int[] arr = {50};
-        TrainConsistApp.bubbleSort(arr);
-        assertArrayEquals(new int[]{50}, arr);
-    }
-
-    @Test
-    void testSort_AllEqualValues() {
-        int[] arr = {40, 40, 40};
-        TrainConsistApp.bubbleSort(arr);
-        assertArrayEquals(new int[]{40, 40, 40}, arr);
+        String[] input = {"Sleeper"};
+        TrainConsistApp.sortBogieNames(input);
+        assertArrayEquals(new String[]{"Sleeper"}, input);
     }
 }
