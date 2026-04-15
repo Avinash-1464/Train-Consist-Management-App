@@ -1,51 +1,26 @@
-import java.util.*;
+public class TrainConsistApp {
 
-class CargoSafetyException extends RuntimeException {
-    public CargoSafetyException(String message) {
-        super(message);
-    }
-}
+    public static void bubbleSort(int[] arr) {
+        int n = arr.length;
 
-class GoodsBogie {
-    private String type;
-    private String cargo;
-
-    public GoodsBogie(String type) {
-        this.type = type;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getCargo() {
-        return cargo;
-    }
-
-    public void assignCargo(String cargo) {
-        try {
-            if (type.equalsIgnoreCase("Rectangular") && cargo.equalsIgnoreCase("Petroleum")) {
-                throw new CargoSafetyException("Unsafe cargo assignment");
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                }
             }
-            this.cargo = cargo;
-        } catch (CargoSafetyException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            System.out.println("Assignment attempted");
         }
     }
-}
 
-public class TrainConsistApp {
     public static void main(String[] args) {
-        GoodsBogie b1 = new GoodsBogie("Cylindrical");
-        GoodsBogie b2 = new GoodsBogie("Rectangular");
+        int[] capacities = {72, 56, 24, 70, 60};
 
-        b1.assignCargo("Petroleum");
-        b2.assignCargo("Petroleum");
-        b2.assignCargo("Coal");
+        bubbleSort(capacities);
 
-        System.out.println(b1.getCargo());
-        System.out.println(b2.getCargo());
+        for (int c : capacities) {
+            System.out.print(c + " ");
+        }
     }
 }
