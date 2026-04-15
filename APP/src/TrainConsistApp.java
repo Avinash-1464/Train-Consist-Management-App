@@ -1,18 +1,34 @@
+import java.util.Arrays;
+
 public class TrainConsistApp {
 
-    public static boolean linearSearch(String[] arr, String key) {
-        for (String id : arr) {
-            if (id.equals(key)) {
+    public static boolean binarySearch(String[] arr, String key) {
+        Arrays.sort(arr);
+
+        int low = 0;
+        int high = arr.length - 1;
+
+        while (low <= high) {
+            int mid = (low + high) / 2;
+
+            int result = arr[mid].compareTo(key);
+
+            if (result == 0) {
                 return true;
+            } else if (result < 0) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
             }
         }
+
         return false;
     }
 
     public static void main(String[] args) {
-        String[] bogies = {"BG101", "BG205", "BG309", "BG412", "BG550"};
+        String[] bogies = {"BG309", "BG101", "BG550", "BG205", "BG412"};
 
-        System.out.println(linearSearch(bogies, "BG309"));
-        System.out.println(linearSearch(bogies, "BG999"));
+        System.out.println(binarySearch(bogies, "BG205"));
+        System.out.println(binarySearch(bogies, "BG999"));
     }
 }
