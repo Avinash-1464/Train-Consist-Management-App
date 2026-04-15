@@ -1,49 +1,68 @@
 import java.util.*;
+import java.util.stream.*;
 
-class GoodsBogie {
-    private String type;
-    private String cargo;
+class Bogie {
+    private String name;
+    private int capacity;
 
-    public GoodsBogie(String type, String cargo) {
-        this.type = type;
-        this.cargo = cargo;
+    public Bogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
     }
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
-    public String getCargo() {
-        return cargo;
+    public int getCapacity() {
+        return capacity;
     }
 }
 
 public class TrainConsistApp {
 
-    public static boolean isTrainSafe(List<GoodsBogie> bogies) {
-        return bogies.stream().allMatch(b ->
-                !b.getType().equalsIgnoreCase("Cylindrical") ||
-                        b.getCargo().equalsIgnoreCase("Petroleum")
-        );
+    public static List<Bogie> filterWithLoop(List<Bogie> bogies) {
+        List<Bogie> result = new ArrayList<>();
+        for (Bogie b : bogies) {
+            if (b.getCapacity() > 60) {
+                result.add(b);
+            }
+        }
+        return result;
+    }
+
+    public static List<Bogie> filterWithStream(List<Bogie> bogies) {
+        return bogies.stream()
+                .filter(b -> b.getCapacity() > 60)
+                .collect(Collectors.toList());
+    }
+
+    public static long measureLoopTime(List<Bogie> bogies) {
+        long start = System.nanoTime();
+        filterWithLoop(bogies);
+        long end = System.nanoTime();
+        return end - start;
+    }
+
+    public static long measureStreamTime(List<Bogie> bogies) {
+        long start = System.nanoTime();
+        filterWithStream(bogies);
+        long end = System.nanoTime();
+        return end - start;
     }
 
     public static void main(String[] args) {
-        List<GoodsBogie> bogies = Arrays.asList(
-                new GoodsBogie("Cylindrical", "Petroleum"),
-                new GoodsBogie("Open", "Coal"),
-                new GoodsBogie("Box", "Grain")
+        List<Bogie> bogies = Arrays.asList(
+                new Bogie("Sleeper", 72),
+                new Bogie("AC Chair", 54),
+                new Bogie("First Class", 36),
+                new Bogie("Sleeper", 80)
         );
 
-        boolean result = isTrainSafe(bogies);
+        long loopTime = measureLoopTime(bogies);
+        long streamTime = measureStreamTime(bogies);
 
-        if (result) {
-            System.out.println("Train is SAFETY COMPLIANT");
-        } else {
-            System.out.println("Train is NOT SAFE");
-        }
-    }
-
-
-    public static boolean isValidCargoCode(String pet123) {
+        System.out.println("Loop Time: " + loopTime);
+        System.out.println("Stream Time: " + streamTime);
     }
 }
