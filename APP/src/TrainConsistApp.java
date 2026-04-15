@@ -1,17 +1,18 @@
-import java.util.Arrays;
-
 public class TrainConsistApp {
 
-    public static String[] sortBogieNames(String[] names) {
-        Arrays.sort(names);
-        return names;
+    public static boolean linearSearch(String[] arr, String key) {
+        for (String id : arr) {
+            if (id.equals(key)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
-        String[] bogies = {"Sleeper", "AC Chair", "First Class", "General", "Luxury"};
+        String[] bogies = {"BG101", "BG205", "BG309", "BG412", "BG550"};
 
-        sortBogieNames(bogies);
-
-        System.out.println(Arrays.toString(bogies));
+        System.out.println(linearSearch(bogies, "BG309"));
+        System.out.println(linearSearch(bogies, "BG999"));
     }
 }
