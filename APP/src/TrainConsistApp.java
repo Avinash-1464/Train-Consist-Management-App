@@ -1,17 +1,25 @@
 import java.util.*;
-import java.util.stream.*;
 
-class Bogie {
-    private String name;
+class InvalidCapacityException extends Exception {
+    public InvalidCapacityException(String message) {
+        super(message);
+    }
+}
+
+class PassengerBogie {
+    private String type;
     private int capacity;
 
-    public Bogie(String name, int capacity) {
-        this.name = name;
+    public PassengerBogie(String type, int capacity) throws InvalidCapacityException {
+        if (capacity <= 0) {
+            throw new InvalidCapacityException("Capacity must be greater than zero");
+        }
+        this.type = type;
         this.capacity = capacity;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
     public int getCapacity() {
@@ -20,49 +28,13 @@ class Bogie {
 }
 
 public class TrainConsistApp {
+    public static void main(String[] args) throws InvalidCapacityException {
+        PassengerBogie b1 = new PassengerBogie("Sleeper", 72);
+        PassengerBogie b2 = new PassengerBogie("AC Chair", 54);
+        PassengerBogie b3 = new PassengerBogie("First Class", 36);
 
-    public static List<Bogie> filterWithLoop(List<Bogie> bogies) {
-        List<Bogie> result = new ArrayList<>();
-        for (Bogie b : bogies) {
-            if (b.getCapacity() > 60) {
-                result.add(b);
-            }
-        }
-        return result;
-    }
-
-    public static List<Bogie> filterWithStream(List<Bogie> bogies) {
-        return bogies.stream()
-                .filter(b -> b.getCapacity() > 60)
-                .collect(Collectors.toList());
-    }
-
-    public static long measureLoopTime(List<Bogie> bogies) {
-        long start = System.nanoTime();
-        filterWithLoop(bogies);
-        long end = System.nanoTime();
-        return end - start;
-    }
-
-    public static long measureStreamTime(List<Bogie> bogies) {
-        long start = System.nanoTime();
-        filterWithStream(bogies);
-        long end = System.nanoTime();
-        return end - start;
-    }
-
-    public static void main(String[] args) {
-        List<Bogie> bogies = Arrays.asList(
-                new Bogie("Sleeper", 72),
-                new Bogie("AC Chair", 54),
-                new Bogie("First Class", 36),
-                new Bogie("Sleeper", 80)
-        );
-
-        long loopTime = measureLoopTime(bogies);
-        long streamTime = measureStreamTime(bogies);
-
-        System.out.println("Loop Time: " + loopTime);
-        System.out.println("Stream Time: " + streamTime);
+        System.out.println(b1.getType() + " " + b1.getCapacity());
+        System.out.println(b2.getType() + " " + b2.getCapacity());
+        System.out.println(b3.getType() + " " + b3.getCapacity());
     }
 }
