@@ -1,40 +1,51 @@
 import java.util.*;
 
-class InvalidCapacityException extends Exception {
-    public InvalidCapacityException(String message) {
+class CargoSafetyException extends RuntimeException {
+    public CargoSafetyException(String message) {
         super(message);
     }
 }
 
-class PassengerBogie {
+class GoodsBogie {
     private String type;
-    private int capacity;
+    private String cargo;
 
-    public PassengerBogie(String type, int capacity) throws InvalidCapacityException {
-        if (capacity <= 0) {
-            throw new InvalidCapacityException("Capacity must be greater than zero");
-        }
+    public GoodsBogie(String type) {
         this.type = type;
-        this.capacity = capacity;
     }
 
     public String getType() {
         return type;
     }
 
-    public int getCapacity() {
-        return capacity;
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void assignCargo(String cargo) {
+        try {
+            if (type.equalsIgnoreCase("Rectangular") && cargo.equalsIgnoreCase("Petroleum")) {
+                throw new CargoSafetyException("Unsafe cargo assignment");
+            }
+            this.cargo = cargo;
+        } catch (CargoSafetyException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            System.out.println("Assignment attempted");
+        }
     }
 }
 
 public class TrainConsistApp {
-    public static void main(String[] args) throws InvalidCapacityException {
-        PassengerBogie b1 = new PassengerBogie("Sleeper", 72);
-        PassengerBogie b2 = new PassengerBogie("AC Chair", 54);
-        PassengerBogie b3 = new PassengerBogie("First Class", 36);
+    public static void main(String[] args) {
+        GoodsBogie b1 = new GoodsBogie("Cylindrical");
+        GoodsBogie b2 = new GoodsBogie("Rectangular");
 
-        System.out.println(b1.getType() + " " + b1.getCapacity());
-        System.out.println(b2.getType() + " " + b2.getCapacity());
-        System.out.println(b3.getType() + " " + b3.getCapacity());
+        b1.assignCargo("Petroleum");
+        b2.assignCargo("Petroleum");
+        b2.assignCargo("Coal");
+
+        System.out.println(b1.getCargo());
+        System.out.println(b2.getCargo());
     }
 }
